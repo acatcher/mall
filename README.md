@@ -13,3 +13,4 @@ something new to me
   - use Global Exception
     - define Exception Code 
     - use @Valid to simplify
+  - swagger

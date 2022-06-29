@@ -7,6 +7,7 @@ import com.yzx.mall.exception.MallExceptionCode;
 import com.yzx.mall.model.pojo.User;
 import com.yzx.mall.model.request.RegisterReq;
 import com.yzx.mall.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public ApiResponse login(String userName, String password, HttpSession httpSession){
+    public ApiResponse login(@RequestParam String userName, @RequestParam String password, HttpSession httpSession){
         if(StringUtils.isEmpty(userName)){
             throw new MallException(MallExceptionCode.NEED_USER_NAME);
         }
@@ -54,6 +55,7 @@ public class UserController {
 
     }
 
+    @ApiOperation("UPDATE SIGNATURE")
     @PostMapping("/user/update")
     @ResponseBody
     public ApiResponse updateSignature(String signature, HttpSession httpSession){
