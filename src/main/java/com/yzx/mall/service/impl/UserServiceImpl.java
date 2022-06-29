@@ -1,5 +1,6 @@
 package com.yzx.mall.service.impl;
 
+
 import com.yzx.mall.exception.MallException;
 import com.yzx.mall.exception.MallExceptionCode;
 import com.yzx.mall.model.dao.UserMapper;
@@ -47,5 +48,47 @@ public class UserServiceImpl implements UserService {
             throw new MallException(MallExceptionCode.FAIL_INSERT);
         }
     }
+
+    @Override
+    public User selectUserLogin(String userName, String password){
+        User user = null;
+
+        try {
+            user = userMapper.selectUserLogin(userName, MD5.getMD5Str(password));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        if(user == null){
+            throw new MallException(MallExceptionCode.LOGIN_FAILED);
+        }
+
+        user.setPassword(null);
+
+        return user;
+    }
+
+    @Override
+    public void updateSignature(User user){
+
+        int count = userMapper.updateByPrimaryKeySelective(user);
+        if(count != 1){
+            throw new MallException(MallExceptionCode.UPDATE_FAILED);
+        }
+
+    }
+
+    @Override
+    public User selectAdminLogin(String userName, String password){
+
+        User user = selectUserLogin(userName, password);
+        if(user.getRole() != 2){
+            throw new MallException(MallExceptionCode.NOT_ADMIN);
+        }
+        return user;
+
+    }
+
+
 
 }
