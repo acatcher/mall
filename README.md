@@ -14,3 +14,4 @@ something new to me
     - define Exception Code 
     - use @Valid to simplify
   - swagger
+  - redis
